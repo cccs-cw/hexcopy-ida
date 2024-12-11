@@ -29,7 +29,14 @@ import idautils
 
 major, minor = map(int, idaapi.get_kernel_version().split("."))
 using_ida7api = (major > 6)
+IDA_9 = major >= 9
 using_pyqt5 = using_ida7api or (major == 6 and minor >= 9)
+
+if IDA_9:
+    import ida_kernwin
+    BWN_DISASM = ida_kernwin.BWN_DISASM
+else:
+    BWN_DISASM = idaapi.BWN_DISASMS
 
 if using_pyqt5:
     import PyQt5.QtGui as QtGui
@@ -233,7 +240,7 @@ def inject_hex_copy_actions(form, popup, form_type):
     # disassembly window
     #
 
-    if form_type == idaapi.BWN_DISASMS:
+    if form_type == BWN_DISASM:
         # insert the prefix action entry into the menu
         #
 
