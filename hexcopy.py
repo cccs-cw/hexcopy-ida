@@ -27,12 +27,11 @@ import idc
 import idaapi
 import idautils
 
-major, minor = map(int, idaapi.get_kernel_version().split("."))
+major, minor = [int(v) for v in idaapi.get_kernel_version().split('.')]
 using_ida7api = (major > 6)
-IDA_9 = major >= 9
 using_pyqt5 = using_ida7api or (major == 6 and minor >= 9)
 
-if IDA_9:
+if major >= 9:
     import ida_kernwin
     BWN_DISASM = ida_kernwin.BWN_DISASM
 else:
